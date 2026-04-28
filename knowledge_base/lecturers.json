@@ -1,0 +1,302 @@
+[
+  {
+    "id": "L001",
+    "name": "Assoc. Prof. Dr. Kasturi Dewi Varathan",
+    "title": "Associate Professor",
+    "email": "kasturi@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/kasturi",
+    "research_areas": ["data_science", "nlp", "information_systems"],
+    "primary_area": "data_science",
+    "expertise_level": "high",
+    "research_type": ["technical", "applied", "survey"],
+    "publications": 95,
+    "h_index": 18,
+    "active_grants": true,
+    "industry_connections": true,
+    "current_load": {
+      "fyp": 2,
+      "masters": 2,
+      "phd": 2
+    },
+    "max_capacity": {
+      "fyp": 4,
+      "masters": 4,
+      "phd": 3
+    },
+    "preferred_student_level": ["masters", "phd"],
+    "collaboration_style": "applied",
+    "availability": "available",
+    "bio": "Expert in data analytics, text mining, social media analytics, health informatics, and opinion mining. Recipient of ETH Zurich and MOHE research grants. Former visiting scientist at University of Lugano, Switzerland.",
+    "last_updated": "2026-04-01"
+  },
+  {
+    "id": "L002",
+    "name": "Prof. Dr. Siti Salwah Salim",
+    "title": "Professor",
+    "email": "salwah@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/salwah",
+    "research_areas": ["hci", "software_engineering", "information_systems"],
+    "primary_area": "hci",
+    "expertise_level": "high",
+    "research_type": ["applied", "survey", "technical"],
+    "publications": 120,
+    "h_index": 22,
+    "active_grants": true,
+    "industry_connections": true,
+    "current_load": {
+      "fyp": 2,
+      "masters": 2,
+      "phd": 3
+    },
+    "max_capacity": {
+      "fyp": 4,
+      "masters": 4,
+      "phd": 5
+    },
+    "preferred_student_level": ["masters", "phd"],
+    "collaboration_style": "applied",
+    "availability": "available",
+    "bio": "Head of Multimodal Interaction Research Lab. Research focuses on HCI, assistive technology for children with communication disabilities, requirements engineering, and e-learning. PhD from UMIST, UK.",
+    "last_updated": "2026-03-20"
+  },
+  {
+    "id": "L003",
+    "name": "Assoc. Prof. Dr. Maizatul Akmar Ismail",
+    "title": "Associate Professor",
+    "email": "maizatul@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/maizatul",
+    "research_areas": ["information_systems", "data_science", "nlp"],
+    "primary_area": "information_systems",
+    "expertise_level": "high",
+    "research_type": ["survey", "applied", "technical"],
+    "publications": 100,
+    "h_index": 16,
+    "active_grants": true,
+    "industry_connections": false,
+    "current_load": {
+      "fyp": 3,
+      "masters": 2,
+      "phd": 2
+    },
+    "max_capacity": {
+      "fyp": 5,
+      "masters": 4,
+      "phd": 3
+    },
+    "preferred_student_level": ["undergraduate", "masters", "phd"],
+    "collaboration_style": "survey",
+    "availability": "available",
+    "bio": "Associate Editor, Malaysian Journal of Computer Science. Expertise in educational technology, recommender systems, data mining, information retrieval, and predictive modelling. Over 100 published papers.",
+    "last_updated": "2026-04-05"
+  },
+  {
+    "id": "L004",
+    "name": "Assoc. Prof. Dr. Teck Chaw Ling",
+    "title": "Associate Professor",
+    "email": "lintc@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/lintc",
+    "research_areas": ["cloud_iot", "cybersecurity", "software_engineering"],
+    "primary_area": "cloud_iot",
+    "expertise_level": "high",
+    "research_type": ["technical", "applied"],
+    "publications": 80,
+    "h_index": 19,
+    "active_grants": true,
+    "industry_connections": true,
+    "current_load": {
+      "fyp": 2,
+      "masters": 2,
+      "phd": 2
+    },
+    "max_capacity": {
+      "fyp": 4,
+      "masters": 4,
+      "phd": 3
+    },
+    "preferred_student_level": ["masters", "phd"],
+    "collaboration_style": "technical",
+    "availability": "available",
+    "bio": "Research in Software-Defined Networking (SDN), cloud computing infrastructure, network security, IoT-cloud integration, and CNN-based network intrusion detection. Active collaborator with international research institutions.",
+    "last_updated": "2026-03-15"
+  },
+  {
+    "id": "L005",
+    "name": "Assoc. Prof. Dr. Suraya Hamid",
+    "title": "Associate Professor",
+    "email": "suraya@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/suraya",
+    "research_areas": ["information_systems", "hci", "data_science"],
+    "primary_area": "information_systems",
+    "expertise_level": "medium",
+    "research_type": ["survey", "applied"],
+    "publications": 60,
+    "h_index": 12,
+    "active_grants": false,
+    "industry_connections": true,
+    "current_load": {
+      "fyp": 3,
+      "masters": 2,
+      "phd": 1
+    },
+    "max_capacity": {
+      "fyp": 5,
+      "masters": 4,
+      "phd": 2
+    },
+    "preferred_student_level": ["undergraduate", "masters"],
+    "collaboration_style": "survey",
+    "availability": "available",
+    "bio": "Research in social informatics, e-learning, educational technology, information seeking behaviour, and e-government information services. PhD from University of Melbourne, Australia.",
+    "last_updated": "2026-04-10"
+  },
+  {
+    "id": "L006",
+    "name": "Prof. Dr. Nor Adnan Yahya",
+    "title": "Professor",
+    "email": "adnan@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/adnan",
+    "research_areas": ["software_engineering", "information_systems", "data_science"],
+    "primary_area": "software_engineering",
+    "expertise_level": "high",
+    "research_type": ["technical", "applied", "survey"],
+    "publications": 110,
+    "h_index": 20,
+    "active_grants": true,
+    "industry_connections": true,
+    "current_load": {
+      "fyp": 1,
+      "masters": 3,
+      "phd": 3
+    },
+    "max_capacity": {
+      "fyp": 3,
+      "masters": 5,
+      "phd": 5
+    },
+    "preferred_student_level": ["masters", "phd"],
+    "collaboration_style": "technical",
+    "availability": "limited",
+    "bio": "Research in software process improvement, agile software development, software metrics, requirements engineering, and knowledge management in software projects. Senior IEEE member and active grant recipient.",
+    "last_updated": "2026-03-28"
+  },
+  {
+    "id": "L007",
+    "name": "Assoc. Prof. Dr. Noor Hafizah Hassan",
+    "title": "Associate Professor",
+    "email": "noorhafizah@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/noorhafizah",
+    "research_areas": ["cybersecurity", "information_systems", "cloud_iot"],
+    "primary_area": "cybersecurity",
+    "expertise_level": "high",
+    "research_type": ["technical", "survey"],
+    "publications": 55,
+    "h_index": 13,
+    "active_grants": true,
+    "industry_connections": true,
+    "current_load": {
+      "fyp": 2,
+      "masters": 1,
+      "phd": 1
+    },
+    "max_capacity": {
+      "fyp": 4,
+      "masters": 3,
+      "phd": 2
+    },
+    "preferred_student_level": ["undergraduate", "masters", "phd"],
+    "collaboration_style": "technical",
+    "availability": "available",
+    "bio": "Specialises in information security governance, cybersecurity risk management, digital forensics, and security compliance frameworks. Regular presenter at IEEE and ACM security conferences.",
+    "last_updated": "2026-04-02"
+  },
+  {
+    "id": "L008",
+    "name": "Dr. Azlina Ahmad",
+    "title": "Senior Lecturer",
+    "email": "azlina@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/azlina",
+    "research_areas": ["hci", "software_engineering", "information_systems"],
+    "primary_area": "hci",
+    "expertise_level": "medium",
+    "research_type": ["applied", "survey"],
+    "publications": 35,
+    "h_index": 9,
+    "active_grants": false,
+    "industry_connections": true,
+    "current_load": {
+      "fyp": 3,
+      "masters": 1,
+      "phd": 0
+    },
+    "max_capacity": {
+      "fyp": 5,
+      "masters": 3,
+      "phd": 1
+    },
+    "preferred_student_level": ["undergraduate", "masters"],
+    "collaboration_style": "applied",
+    "availability": "available",
+    "bio": "Research in user experience (UX) design, gamification, mobile application usability, and technology acceptance modelling. Active in national industry-linked UX consultancy projects.",
+    "last_updated": "2026-04-15"
+  },
+  {
+    "id": "L009",
+    "name": "Dr. Noor Zaman Jhanjhi",
+    "title": "Senior Lecturer",
+    "email": "nzjhanjhi@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/nzjhanjhi",
+    "research_areas": ["cybersecurity", "cloud_iot", "machine_learning"],
+    "primary_area": "cybersecurity",
+    "expertise_level": "high",
+    "research_type": ["technical", "applied"],
+    "publications": 200,
+    "h_index": 30,
+    "active_grants": true,
+    "industry_connections": true,
+    "current_load": {
+      "fyp": 2,
+      "masters": 2,
+      "phd": 2
+    },
+    "max_capacity": {
+      "fyp": 4,
+      "masters": 4,
+      "phd": 4
+    },
+    "preferred_student_level": ["masters", "phd"],
+    "collaboration_style": "technical",
+    "availability": "limited",
+    "bio": "Highly prolific researcher in cybersecurity, IoT security, machine learning for intrusion detection, and smart network security. Over 200 publications in top-indexed journals. Multiple international research grants.",
+    "last_updated": "2026-04-01"
+  },
+  {
+    "id": "L010",
+    "name": "Dr. Khairul Akram Zainol Ariffin",
+    "title": "Senior Lecturer",
+    "email": "khairul.akram@um.edu.my",
+    "profile_url": "https://umexpert.um.edu.my/khairul.akram",
+    "research_areas": ["machine_learning", "data_science", "computer_vision"],
+    "primary_area": "machine_learning",
+    "expertise_level": "high",
+    "research_type": ["technical", "applied"],
+    "publications": 45,
+    "h_index": 11,
+    "active_grants": true,
+    "industry_connections": false,
+    "current_load": {
+      "fyp": 2,
+      "masters": 1,
+      "phd": 1
+    },
+    "max_capacity": {
+      "fyp": 4,
+      "masters": 3,
+      "phd": 2
+    },
+    "preferred_student_level": ["undergraduate", "masters", "phd"],
+    "collaboration_style": "technical",
+    "availability": "available",
+    "bio": "Research in deep learning, computer vision, image classification, neural network optimisation, and AI applications in healthcare and industrial inspection. Active FRGS and IIRG grant recipient.",
+    "last_updated": "2026-03-30"
+  }
+]

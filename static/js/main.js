@@ -1,5 +1,5 @@
 /* ============================================================
-   ResearchMatch — main.js
+   ResearchMatch ï¿½ main.js
    Handles: particles, step navigation, toggles, slider,
             score animation, accordion, summary population
    ============================================================ */
@@ -7,6 +7,7 @@
 'use strict';
 
 /* -- 1. PARTICLE CANVAS BACKGROUND ---------------------------- */
+// animated floating dots (ignore)
 (function initParticles() {
   const canvas = document.getElementById('particle-canvas');
   if (!canvas) return;
@@ -170,10 +171,10 @@
     const arrow   = document.querySelector('.btn-submit .btn-arrow');
     const btn     = document.getElementById('btn-submit');
     if (spinner) { spinner.classList.add('active'); }
-    if (btnText) btnText.textContent = 'Finding matches…';
+    if (btnText) btnText.textContent = 'Finding matchesï¿½';
     if (arrow)   arrow.style.display = 'none';
     if (btn)     btn.disabled = true;
-    console.log('[ResearchMatch] Submitting form to inference engine…');
+    console.log('[ResearchMatch] Submitting form to inference engineï¿½');
   });
 
   /* -- character counter for textarea -- */
@@ -273,16 +274,16 @@ function populateSummary() {
   };
   const EXPERTISE_LABELS = { '1': 'General', '2': 'Moderate', '3': 'Highly Specialised' };
 
-  set('sum-area',     areaEl ? (AREA_LABELS[areaEl.value] || areaEl.value) : '—');
+  set('sum-area',     areaEl ? (AREA_LABELS[areaEl.value] || areaEl.value) : 'ï¿½');
   set('sum-topic',    topicEl && topicEl.value.trim() ? topicEl.value.trim() : 'Not specified');
-  set('sum-level',    levelEl ? (LEVEL_LABELS[levelEl.value] || levelEl.value) : '—');
-  set('sum-rtype',    rtypeEl ? (RTYPE_LABELS[rtypeEl.value] || rtypeEl.value) : '—');
+  set('sum-level',    levelEl ? (LEVEL_LABELS[levelEl.value] || levelEl.value) : 'ï¿½');
+  set('sum-rtype',    rtypeEl ? (RTYPE_LABELS[rtypeEl.value] || rtypeEl.value) : 'ï¿½');
   set('sum-industry', getToggleVal('needs_industry'));
   set('sum-funding',  getToggleVal('needs_funding'));
   set('sum-light',    getToggleVal('prefers_light_load'));
 
   const slider = document.getElementById('expertise-slider');
-  set('sum-expertise', slider ? (EXPERTISE_LABELS[slider.value] || slider.value) : '—');
+  set('sum-expertise', slider ? (EXPERTISE_LABELS[slider.value] || slider.value) : 'ï¿½');
 }
 
 function set(id, val) {
@@ -300,7 +301,7 @@ function getToggleVal(field) {
   const cards = document.querySelectorAll('.result-card');
   if (!cards.length) return;
 
-  console.log('[ResearchMatch] Results page loaded — animating ' + cards.length + ' cards');
+  console.log('[ResearchMatch] Results page loaded ï¿½ animating ' + cards.length + ' cards');
 
   // Staggered fade-up for cards
   cards.forEach((card, i) => {
@@ -318,7 +319,7 @@ function getToggleVal(field) {
 })();
 
 function animateScore(arc, numEl, targetScore) {
-  const circumference = 201; // 2 * PI * r(32) ˜ 201
+  const circumference = 201; // 2 * PI * r(32) ï¿½ 201
   const target = (1 - targetScore / 100) * circumference;
 
   let current = circumference;

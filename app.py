@@ -1,11 +1,3 @@
-"""
-ResearchMatch — Lecturer Research Collaboration Matchmaker
-FCSIT, Universiti Malaya (UM)
-
-Expert System using Forward-Chaining Rule-Based Scoring Engine
-Course: WID2001 Knowledge Representation & Reasoning
-"""
-
 from flask import Flask, render_template, request, jsonify, session
 import json
 import os
@@ -329,6 +321,5 @@ def explain(lecturer_id):
 if __name__ == "__main__":
     print("\n" + "="*56)
     print("  ResearchMatch -- FCSIT UM Expert System")
-    print("  Running at: http://localhost:5000")
     print("="*56 + "\n")
     app.run(host='0.0.0.0', debug=True, port=5000)

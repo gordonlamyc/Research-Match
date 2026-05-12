@@ -1,402 +1,357 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Find Your Match — ResearchMatch FCSIT UM</title>
-  <meta name="description" content="Answer 4 quick questions to find your ideal research supervisor at FCSIT, Universiti Malaya." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/css/style.css" />
-</head>
-<body class="questionnaire-page">
+{% extends "base.html" %}
 
-  <canvas id="particle-canvas"></canvas>
-  <div class="bg-overlay"></div>
+{% block title %}Find Your Match — ResearchMatch FCSIT UM{% endblock %}
 
-  <!-- Top nav bar -->
-  <nav class="q-navbar">
-    <a href="/" class="q-nav-logo">Research<span class="accent">Match</span></a>
-    <span class="q-nav-tag">FCSIT · Universiti Malaya</span>
-  </nav>
+{% block meta_description %}
+<meta name="description" content="Answer 4 quick questions to find your ideal research supervisor at FCSIT, Universiti Malaya." />
+{% endblock %}
 
-  <!-- Progress bar strip -->
-  <div class="progress-strip" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-    <div class="progress-fill" id="progress-fill"></div>
+{% block body_class %}questionnaire-page{% endblock %}
+
+{% block navbar %}
+<nav class="q-navbar">
+  <a href="/" class="q-nav-logo">Research<span class="accent">Match</span></a>
+  <span class="q-nav-tag">FCSIT · Universiti Malaya</span>
+</nav>
+
+<div class="progress-strip" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-fill" id="progress-fill"></div>
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="q-main">
+  <div class="step-indicator" role="navigation" aria-label="Form steps">
+    <div class="step-node active" id="step-node-1" data-step="1">
+      <div class="node-circle"><span>1</span></div>
+      <div class="node-label">Research Interest</div>
+    </div>
+    <div class="step-connector" id="conn-1-2"></div>
+    <div class="step-node" id="step-node-2" data-step="2">
+      <div class="node-circle"><span>2</span></div>
+      <div class="node-label">About You</div>
+    </div>
+    <div class="step-connector" id="conn-2-3"></div>
+    <div class="step-node" id="step-node-3" data-step="3">
+      <div class="node-circle"><span>3</span></div>
+      <div class="node-label">Preferences</div>
+    </div>
+    <div class="step-connector" id="conn-3-4"></div>
+    <div class="step-node" id="step-node-4" data-step="4">
+      <div class="node-circle"><span>4</span></div>
+      <div class="node-label">Confirm</div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-node" id="step-node-results">
+      <div class="node-circle results-node"><span>✓</span></div>
+      <div class="node-label">Results</div>
+    </div>
   </div>
 
-  <!-- Main questionnaire container -->
-  <main class="q-main">
+  <form id="match-form" action="/results" method="POST" novalidate>
 
-    <!-- Step indicator timeline -->
-    <div class="step-indicator" role="navigation" aria-label="Form steps">
-      <div class="step-node active" id="step-node-1" data-step="1">
-        <div class="node-circle"><span>1</span></div>
-        <div class="node-label">Research Interest</div>
-      </div>
-      <div class="step-connector" id="conn-1-2"></div>
-      <div class="step-node" id="step-node-2" data-step="2">
-        <div class="node-circle"><span>2</span></div>
-        <div class="node-label">About You</div>
-      </div>
-      <div class="step-connector" id="conn-2-3"></div>
-      <div class="step-node" id="step-node-3" data-step="3">
-        <div class="node-circle"><span>3</span></div>
-        <div class="node-label">Preferences</div>
-      </div>
-      <div class="step-connector" id="conn-3-4"></div>
-      <div class="step-node" id="step-node-4" data-step="4">
-        <div class="node-circle"><span>4</span></div>
-        <div class="node-label">Confirm</div>
-      </div>
-      <div class="step-connector"></div>
-      <div class="step-node" id="step-node-results">
-        <div class="node-circle results-node"><span>✓</span></div>
-        <div class="node-label">Results</div>
+    <div class="step-panel active" id="step-1" data-step="1">
+      <div class="glass-card step-card">
+        <div class="step-card-header">
+          <span class="step-number-tag">Step 01</span>
+          <h2 class="step-title">Research Interest</h2>
+          <p class="step-desc">Tell us about your research focus so we can find the right expertise.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="research_area" class="form-label">
+            What is your primary research area?
+            <span class="label-required">*</span>
+          </label>
+          <div class="select-wrapper">
+            <select name="research_area" id="research_area" class="form-select" required>
+              <option value="" disabled selected>— Select a research area —</option>
+              {% for area in areas %}
+              <option value="{{ area.key }}">{{ area.label }}</option>
+              {% endfor %}
+            </select>
+            <span class="select-chevron">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="research_topic" class="form-label">
+            Briefly describe your research topic
+            <span class="label-optional">(optional)</span>
+          </label>
+          <textarea name="research_topic" id="research_topic" class="form-textarea" rows="3" maxlength="300" placeholder="e.g. Developing a sentiment analysis model for social media text in Malay language..."></textarea>
+          <div class="char-count"><span id="topic-char-count">0</span> / 300</div>
+        </div>
+
+        <div class="step-actions">
+          <span></span>
+          <button type="button" class="btn-next" id="btn-next-1" data-next="2">
+            Next Step
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Form wrapper — all steps inside one real <form> -->
-    <form id="match-form" action="/results" method="POST" novalidate>
+    <div class="step-panel" id="step-2" data-step="2">
+      <div class="glass-card step-card">
+        <div class="step-card-header">
+          <span class="step-number-tag">Step 02</span>
+          <h2 class="step-title">About You</h2>
+          <p class="step-desc">Help us understand your academic background and research approach.</p>
+        </div>
 
-      <!-- ─── STEP 1: Research Interest ─────────────────────────────────── -->
-      <div class="step-panel active" id="step-1" data-step="1">
-        <div class="glass-card step-card">
-          <div class="step-card-header">
-            <span class="step-number-tag">Step 01</span>
-            <h2 class="step-title">Research Interest</h2>
-            <p class="step-desc">Tell us about your research focus so we can find the right expertise.</p>
-          </div>
-
-          <div class="form-group">
-            <label for="research_area" class="form-label">
-              What is your primary research area?
-              <span class="label-required">*</span>
+        <div class="form-group">
+          <label class="form-label">
+            What is your current academic level?
+            <span class="label-required">*</span>
+          </label>
+          <div class="radio-card-group" id="level-group" role="radiogroup" aria-label="Academic level">
+            <label class="radio-card" for="level-ug">
+              <input type="radio" name="level" id="level-ug" value="undergraduate" required />
+              <div class="radio-card-inner">
+                <span class="radio-icon">🎓</span>
+                <strong>Undergraduate</strong>
+                <span>Final Year Project (FYP)</span>
+              </div>
             </label>
-            <div class="select-wrapper">
-              <select name="research_area" id="research_area" class="form-select" required>
-                <option value="" disabled selected>— Select a research area —</option>
-                {% for area in areas %}
-                <option value="{{ area.key }}">{{ area.label }}</option>
-                {% endfor %}
-              </select>
-              <span class="select-chevron">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M6 9l6 6 6-6"/>
-                </svg>
-              </span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="research_topic" class="form-label">
-              Briefly describe your research topic
-              <span class="label-optional">(optional)</span>
+            <label class="radio-card" for="level-masters">
+              <input type="radio" name="level" id="level-masters" value="masters" />
+              <div class="radio-card-inner">
+                <span class="radio-icon">📖</span>
+                <strong>Master's Student</strong>
+                <span>By Research or Mixed Mode</span>
+              </div>
             </label>
-            <textarea
-              name="research_topic"
-              id="research_topic"
-              class="form-textarea"
-              rows="3"
-              maxlength="300"
-              placeholder="e.g. Developing a sentiment analysis model for social media text in Malay language..."
-            ></textarea>
-            <div class="char-count"><span id="topic-char-count">0</span> / 300</div>
-          </div>
-
-          <div class="step-actions">
-            <span></span><!-- spacer -->
-            <button type="button" class="btn-next" id="btn-next-1" data-next="2">
-              Next Step
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </button>
+            <label class="radio-card" for="level-phd">
+              <input type="radio" name="level" id="level-phd" value="phd" />
+              <div class="radio-card-inner">
+                <span class="radio-icon">🔬</span>
+                <strong>PhD Student</strong>
+                <span>Doctoral Research Programme</span>
+              </div>
+            </label>
+            <label class="radio-card" for="level-researcher">
+              <input type="radio" name="level" id="level-researcher" value="researcher" />
+              <div class="radio-card-inner">
+                <span class="radio-icon">💡</span>
+                <strong>Junior Researcher</strong>
+                <span>Research Assistant / RA</span>
+              </div>
+            </label>
           </div>
         </div>
-      </div>
 
-      <!-- ─── STEP 2: About You ──────────────────────────────────────────── -->
-      <div class="step-panel" id="step-2" data-step="2">
-        <div class="glass-card step-card">
-          <div class="step-card-header">
-            <span class="step-number-tag">Step 02</span>
-            <h2 class="step-title">About You</h2>
-            <p class="step-desc">Help us understand your academic background and research approach.</p>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">
-              What is your current academic level?
-              <span class="label-required">*</span>
+        <div class="form-group">
+          <label class="form-label">
+            What type of research are you doing?
+            <span class="label-required">*</span>
+          </label>
+          <div class="radio-card-group" id="rtype-group" role="radiogroup" aria-label="Research type">
+            <label class="radio-card" for="rtype-technical">
+              <input type="radio" name="research_type" id="rtype-technical" value="technical" required />
+              <div class="radio-card-inner">
+                <span class="radio-icon">⚙️</span>
+                <strong>Pure Technical</strong>
+                <span>Algorithms, models, architecture</span>
+              </div>
             </label>
-            <div class="radio-card-group" id="level-group" role="radiogroup" aria-label="Academic level">
-              <label class="radio-card" for="level-ug">
-                <input type="radio" name="level" id="level-ug" value="undergraduate" required />
-                <div class="radio-card-inner">
-                  <span class="radio-icon">🎓</span>
-                  <strong>Undergraduate</strong>
-                  <span>Final Year Project (FYP)</span>
-                </div>
-              </label>
-              <label class="radio-card" for="level-masters">
-                <input type="radio" name="level" id="level-masters" value="masters" />
-                <div class="radio-card-inner">
-                  <span class="radio-icon">📖</span>
-                  <strong>Master's Student</strong>
-                  <span>By Research or Mixed Mode</span>
-                </div>
-              </label>
-              <label class="radio-card" for="level-phd">
-                <input type="radio" name="level" id="level-phd" value="phd" />
-                <div class="radio-card-inner">
-                  <span class="radio-icon">🔬</span>
-                  <strong>PhD Student</strong>
-                  <span>Doctoral Research Programme</span>
-                </div>
-              </label>
-              <label class="radio-card" for="level-researcher">
-                <input type="radio" name="level" id="level-researcher" value="researcher" />
-                <div class="radio-card-inner">
-                  <span class="radio-icon">💡</span>
-                  <strong>Junior Researcher</strong>
-                  <span>Research Assistant / RA</span>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">
-              What type of research are you doing?
-              <span class="label-required">*</span>
+            <label class="radio-card" for="rtype-development">
+              <input type="radio" name="research_type" id="rtype-development" value="development" />
+              <div class="radio-card-inner">
+                <span class="radio-icon">🛠️</span>
+                <strong>System Development</strong>
+                <span>Build and deploy a system</span>
+              </div>
             </label>
-            <div class="radio-card-group" id="rtype-group" role="radiogroup" aria-label="Research type">
-              <label class="radio-card" for="rtype-technical">
-                <input type="radio" name="research_type" id="rtype-technical" value="technical" required />
-                <div class="radio-card-inner">
-                  <span class="radio-icon">⚙️</span>
-                  <strong>Pure Technical</strong>
-                  <span>Algorithms, models, architecture</span>
-                </div>
-              </label>
-              <label class="radio-card" for="rtype-development">
-                <input type="radio" name="research_type" id="rtype-development" value="development" />
-                <div class="radio-card-inner">
-                  <span class="radio-icon">🛠️</span>
-                  <strong>System Development</strong>
-                  <span>Build and deploy a system</span>
-                </div>
-              </label>
-              <label class="radio-card" for="rtype-survey">
-                <input type="radio" name="research_type" id="rtype-survey" value="survey" />
-                <div class="radio-card-inner">
-                  <span class="radio-icon">📊</span>
-                  <strong>Survey &amp; Analysis</strong>
-                  <span>Literature review, data analysis</span>
-                </div>
-              </label>
-              <label class="radio-card" for="rtype-industry">
-                <input type="radio" name="research_type" id="rtype-industry" value="industry" />
-                <div class="radio-card-inner">
-                  <span class="radio-icon">🏭</span>
-                  <strong>Industry Applied</strong>
-                  <span>Real-world industry problem</span>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <div class="step-actions">
-            <button type="button" class="btn-back" data-prev="1">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-              </svg>
-              Back
-            </button>
-            <button type="button" class="btn-next" id="btn-next-2" data-next="3">
-              Next Step
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </button>
+            <label class="radio-card" for="rtype-survey">
+              <input type="radio" name="research_type" id="rtype-survey" value="survey" />
+              <div class="radio-card-inner">
+                <span class="radio-icon">📊</span>
+                <strong>Survey &amp; Analysis</strong>
+                <span>Literature review, data analysis</span>
+              </div>
+            </label>
+            <label class="radio-card" for="rtype-industry">
+              <input type="radio" name="research_type" id="rtype-industry" value="industry" />
+              <div class="radio-card-inner">
+                <span class="radio-icon">🏭</span>
+                <strong>Industry Applied</strong>
+                <span>Real-world industry problem</span>
+              </div>
+            </label>
           </div>
         </div>
-      </div>
 
-      <!-- ─── STEP 3: Preferences ────────────────────────────────────────── -->
-      <div class="step-panel" id="step-3" data-step="3">
-        <div class="glass-card step-card">
-          <div class="step-card-header">
-            <span class="step-number-tag">Step 03</span>
-            <h2 class="step-title">Your Preferences</h2>
-            <p class="step-desc">Refine your match by specifying what matters most to you.</p>
-          </div>
-
-          <!-- Toggle: industry -->
-          <div class="form-group toggle-group">
-            <div class="toggle-info">
-              <label class="form-label no-mb" for="toggle-industry">
-                Do you need a lecturer with industry connections?
-              </label>
-              <p class="toggle-hint">Useful if your research involves real-world partnerships or internship pathways.</p>
-            </div>
-            <div class="toggle-wrapper">
-              <button type="button" class="toggle-btn" id="toggle-industry" role="switch" aria-checked="false" data-field="needs_industry">
-                <span class="toggle-thumb"></span>
-              </button>
-              <span class="toggle-label-text" id="label-industry">No</span>
-            </div>
-            <input type="hidden" name="needs_industry" id="field-needs_industry" value="false" />
-          </div>
-
-          <!-- Toggle: funding -->
-          <div class="form-group toggle-group">
-            <div class="toggle-info">
-              <label class="form-label no-mb" for="toggle-funding">
-                Do you need access to research funding / grants?
-              </label>
-              <p class="toggle-hint">Lecturers with active grants may offer research assistant positions or stipends.</p>
-            </div>
-            <div class="toggle-wrapper">
-              <button type="button" class="toggle-btn" id="toggle-funding" role="switch" aria-checked="false" data-field="needs_funding">
-                <span class="toggle-thumb"></span>
-              </button>
-              <span class="toggle-label-text" id="label-funding">No</span>
-            </div>
-            <input type="hidden" name="needs_funding" id="field-needs_funding" value="false" />
-          </div>
-
-          <!-- Slider: expertise -->
-          <div class="form-group">
-            <label class="form-label" for="expertise-slider">
-              How specialised must the lecturer be in your area?
-            </label>
-            <div class="slider-container">
-              <span class="slider-end-label">General</span>
-              <div class="slider-track-wrapper">
-                <input
-                  type="range"
-                  id="expertise-slider"
-                  name="expertise_needed"
-                  min="1" max="3" step="1" value="2"
-                  class="custom-slider"
-                />
-                <div class="slider-ticks">
-                  <span>General</span>
-                  <span>Moderate</span>
-                  <span>Highly Specialised</span>
-                </div>
-              </div>
-              <span class="slider-end-label">Specialised</span>
-            </div>
-            <div class="slider-value-display" id="expertise-display">Moderate Specialisation</div>
-          </div>
-
-          <!-- Toggle: light workload -->
-          <div class="form-group toggle-group">
-            <div class="toggle-info">
-              <label class="form-label no-mb" for="toggle-light">
-                Do you prefer a lecturer with a lighter current workload?
-              </label>
-              <p class="toggle-hint">Lighter workload may mean more time and attention for your supervision.</p>
-            </div>
-            <div class="toggle-wrapper">
-              <button type="button" class="toggle-btn" id="toggle-light" role="switch" aria-checked="false" data-field="prefers_light_load">
-                <span class="toggle-thumb"></span>
-              </button>
-              <span class="toggle-label-text" id="label-light">No</span>
-            </div>
-            <input type="hidden" name="prefers_light_load" id="field-prefers_light_load" value="false" />
-          </div>
-
-          <div class="step-actions">
-            <button type="button" class="btn-back" data-prev="2">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-              </svg>
-              Back
-            </button>
-            <button type="button" class="btn-next" id="btn-next-3" data-next="4">
-              Review Answers
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </button>
-          </div>
+        <div class="step-actions">
+          <button type="button" class="btn-back" data-prev="1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back
+          </button>
+          <button type="button" class="btn-next" id="btn-next-2" data-next="3">
+            Next Step
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
         </div>
       </div>
+    </div>
 
-      <!-- ─── STEP 4: Confirmation ───────────────────────────────────────── -->
-      <div class="step-panel" id="step-4" data-step="4">
-        <div class="glass-card step-card">
-          <div class="step-card-header">
-            <span class="step-number-tag">Step 04</span>
-            <h2 class="step-title">Confirm Your Answers</h2>
-            <p class="step-desc">Review your profile below, then let the expert system find your best match.</p>
+    <div class="step-panel" id="step-3" data-step="3">
+      <div class="glass-card step-card">
+        <div class="step-card-header">
+          <span class="step-number-tag">Step 03</span>
+          <h2 class="step-title">Your Preferences</h2>
+          <p class="step-desc">Refine your match by specifying what matters most to you.</p>
+        </div>
+
+        <div class="form-group toggle-group">
+          <div class="toggle-info">
+            <label class="form-label no-mb" for="toggle-industry">Do you need a lecturer with industry connections?</label>
+            <p class="toggle-hint">Useful if your research involves real-world partnerships or internship pathways.</p>
           </div>
+          <div class="toggle-wrapper">
+            <button type="button" class="toggle-btn" id="toggle-industry" role="switch" aria-checked="false" data-field="needs_industry">
+              <span class="toggle-thumb"></span>
+            </button>
+            <span class="toggle-label-text" id="label-industry">No</span>
+          </div>
+          <input type="hidden" name="needs_industry" id="field-needs_industry" value="false" />
+        </div>
 
-          <!-- Summary card -->
-          <div class="summary-card" id="summary-display">
-            <div class="summary-grid">
-              <div class="summary-item">
-                <span class="summary-label">Research Area</span>
-                <span class="summary-value" id="sum-area">—</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Research Topic</span>
-                <span class="summary-value" id="sum-topic">Not specified</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Academic Level</span>
-                <span class="summary-value" id="sum-level">—</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Research Type</span>
-                <span class="summary-value" id="sum-rtype">—</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Industry Connections</span>
-                <span class="summary-value" id="sum-industry">—</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Funding / Grants</span>
-                <span class="summary-value" id="sum-funding">—</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Expertise Level</span>
-                <span class="summary-value" id="sum-expertise">—</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Light Workload Preference</span>
-                <span class="summary-value" id="sum-light">—</span>
+        <div class="form-group toggle-group">
+          <div class="toggle-info">
+            <label class="form-label no-mb" for="toggle-funding">Do you need access to research funding / grants?</label>
+            <p class="toggle-hint">Lecturers with active grants may offer research assistant positions or stipends.</p>
+          </div>
+          <div class="toggle-wrapper">
+            <button type="button" class="toggle-btn" id="toggle-funding" role="switch" aria-checked="false" data-field="needs_funding">
+              <span class="toggle-thumb"></span>
+            </button>
+            <span class="toggle-label-text" id="label-funding">No</span>
+          </div>
+          <input type="hidden" name="needs_funding" id="field-needs_funding" value="false" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="expertise-slider">How specialised must the lecturer be in your area?</label>
+          <div class="slider-container">
+            <span class="slider-end-label">General</span>
+            <div class="slider-track-wrapper">
+              <input type="range" id="expertise-slider" name="expertise_needed" min="1" max="3" step="1" value="2" class="custom-slider" />
+              <div class="slider-ticks">
+                <span>General</span>
+                <span>Moderate</span>
+                <span>Highly Specialised</span>
               </div>
             </div>
+            <span class="slider-end-label">Specialised</span>
           </div>
+          <div class="slider-value-display" id="expertise-display">Moderate Specialisation</div>
+        </div>
 
-          <div class="step-actions confirm-actions">
-            <button type="button" class="btn-back" data-prev="3">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-              </svg>
-              Edit Answers
-            </button>
-            <button type="submit" class="btn-submit" id="btn-submit">
-              <span class="btn-submit-text">Find My Match</span>
-              <div class="spinner" id="submit-spinner" aria-hidden="true"></div>
-              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </button>
+        <div class="form-group toggle-group">
+          <div class="toggle-info">
+            <label class="form-label no-mb" for="toggle-light">Do you prefer a lecturer with a lighter current workload?</label>
+            <p class="toggle-hint">Lighter workload may mean more time and attention for your supervision.</p>
           </div>
+          <div class="toggle-wrapper">
+            <button type="button" class="toggle-btn" id="toggle-light" role="switch" aria-checked="false" data-field="prefers_light_load">
+              <span class="toggle-thumb"></span>
+            </button>
+            <span class="toggle-label-text" id="label-light">No</span>
+          </div>
+          <input type="hidden" name="prefers_light_load" id="field-prefers_light_load" value="false" />
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-back" data-prev="2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back
+          </button>
+          <button type="button" class="btn-next" id="btn-next-3" data-next="4">
+            Review Answers
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
         </div>
       </div>
+    </div>
 
-    </form><!-- end #match-form -->
+    <div class="step-panel" id="step-4" data-step="4">
+      <div class="glass-card step-card">
+        <div class="step-card-header">
+          <span class="step-number-tag">Step 04</span>
+          <h2 class="step-title">Confirm Your Answers</h2>
+          <p class="step-desc">Review your profile below, then let the expert system find your best match.</p>
+        </div>
 
-  </main>
+        <div class="summary-card" id="summary-display">
+          <div class="summary-grid">
+            <div class="summary-item">
+              <span class="summary-label">Research Area</span>
+              <span class="summary-value" id="sum-area">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Research Topic</span>
+              <span class="summary-value" id="sum-topic">Not specified</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Academic Level</span>
+              <span class="summary-value" id="sum-level">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Research Type</span>
+              <span class="summary-value" id="sum-rtype">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Industry Connections</span>
+              <span class="summary-value" id="sum-industry">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Funding / Grants</span>
+              <span class="summary-value" id="sum-funding">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Expertise Level</span>
+              <span class="summary-value" id="sum-expertise">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Light Workload Preference</span>
+              <span class="summary-value" id="sum-light">—</span>
+            </div>
+          </div>
+        </div>
 
-  <script src="/static/js/main.js"></script>
-</body>
-</html>
+        <div class="step-actions confirm-actions">
+          <button type="button" class="btn-back" data-prev="3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Edit Answers
+          </button>
+          <button type="submit" class="btn-submit" id="btn-submit">
+            <span class="btn-submit-text">Find My Match</span>
+            <div class="spinner" id="submit-spinner" aria-hidden="true"></div>
+            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+{% endblock %}

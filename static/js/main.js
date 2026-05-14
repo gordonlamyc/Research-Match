@@ -249,16 +249,27 @@ function populateSummary() {
   const rtypeEl = document.querySelector('input[name="research_type"]:checked');
 
   const AREA_LABELS = {
-    machine_learning:     'AI & Machine Learning',
-    nlp:                  'Natural Language Processing',
-    computer_vision:      'Computer Vision',
-    cybersecurity:        'Cybersecurity',
-    hci:                  'Human-Computer Interaction',
-    software_engineering: 'Software Engineering',
-    data_science:         'Data Science & Analytics',
-    cloud_iot:            'Cloud Computing & IoT',
-    information_systems:  'Information Systems',
-    bioinformatics:       'Bioinformatics'
+    "artificial_intelligence":            "Artificial Intelligence & Machine Learning",
+    "nlp":                                "Natural Language Processing",
+    "computer_vision":                    "Computer Vision",
+    "data_science":                       "Data Science & Analytics",
+    "data_mining":                        "Data Mining",
+    "predictive_analytics":               "Predictive Analytics",
+    "information_retrieval":              "Information Retrieval",
+    "speech_processing":                  "Speech Processing & Recognition",
+    "cybersecurity":                      "Cybersecurity & Network Security",
+    "network_security":                   "Network Security",
+    "computer_forensic":                  "Digital Forensics & Cyber Intelligence",
+    "cloud_computing":                    "Cloud Computing",
+    "iot":                                "Internet of Things (IoT)",
+    "blockchain":                         "Blockchain Technology",
+    "intelligent_transportation_systems": "Intelligent Transportation Systems",
+    "software_engineering":               "Software Engineering",
+    "human_computer_interaction":         "Human-Computer Interaction (HCI)",
+    "multimedia":                         "Multimedia & Computer Graphics",
+    "robotics":                           "Robotics & Autonomous Systems",
+    "medical_informatics":                "Medical Informatics & Healthcare AI",
+    "information_systems":                "Information Systems"
   };
   const LEVEL_LABELS = {
     undergraduate: 'Undergraduate (FYP)',

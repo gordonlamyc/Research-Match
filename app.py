@@ -16,16 +16,31 @@ def load_lecturers():
 
 # ─── Helper Maps ────────────────────────────────────────────────────────────
 AREA_LABELS = {
-    "machine_learning":     "Artificial Intelligence & Machine Learning",
-    "nlp":                  "Natural Language Processing",
-    "computer_vision":      "Computer Vision",
-    "cybersecurity":        "Cybersecurity & Network Security",
-    "hci":                  "Human-Computer Interaction (HCI)",
-    "software_engineering": "Software Engineering",
-    "data_science":         "Data Science & Analytics",
-    "cloud_iot":            "Cloud Computing & IoT",
-    "information_systems":  "Information Systems",
-    "bioinformatics":       "Bioinformatics & Computational Biology",
+    # ── Core AI / Data ──────────────────────────────────────────────────────────
+    "artificial_intelligence":            "Artificial Intelligence & Machine Learning",
+    "nlp":                                "Natural Language Processing",
+    "computer_vision":                    "Computer Vision",
+    "data_science":                       "Data Science & Analytics",
+    "data_mining":                        "Data Mining",
+    "predictive_analytics":               "Predictive Analytics",
+    "information_retrieval":              "Information Retrieval",
+    "speech_processing":                  "Speech Processing & Recognition",
+    # ── Systems & Networks ───────────────────────────────────────────────────────
+    "cybersecurity":                      "Cybersecurity & Network Security",
+    "network_security":                   "Network Security",
+    "computer_forensic":                  "Digital Forensics & Cyber Intelligence",
+    "cloud_computing":                    "Cloud Computing",
+    "iot":                                "Internet of Things (IoT)",
+    "blockchain":                         "Blockchain Technology",
+    "intelligent_transportation_systems": "Intelligent Transportation Systems",
+    # ── Software & HCI ───────────────────────────────────────────────────────────
+    "software_engineering":               "Software Engineering",
+    "human_computer_interaction":         "Human-Computer Interaction (HCI)",
+    "multimedia":                         "Multimedia & Computer Graphics",
+    # ── Emerging & Specialised ───────────────────────────────────────────────────
+    "robotics":                           "Robotics & Autonomous Systems",
+    "medical_informatics":                "Medical Informatics & Healthcare AI",
+    "information_systems":                "Information Systems",
 }
 
 LEVEL_MAP = {
@@ -54,6 +69,7 @@ def run_inference(student: dict) -> list:
 
     # Normalise student inputs
     student_area     = student.get("research_area", "")
+    student_topic    = student.get("research_topic", "")
     student_level    = student.get("level", "undergraduate")       # undergraduate|masters|phd|researcher
     student_rtype    = student.get("research_type", "technical")   # technical|development|survey|industry
     needs_industry   = student.get("needs_industry", False)
@@ -173,6 +189,31 @@ def run_inference(student: dict) -> list:
             reasons.append({"rule": "R09", "text": "Relatively light current workload", "type": "positive"})
             fired_rules.append("R09")
             print(f"[{lec['id']}] R09 FIRED (+5): Light load ({load_ratio:.0%})")
+
+        # ── R11: Research Topic Keyword Match ───────────────────────────────
+        # IF student's topic description contains keywords present in lecturer's 
+        # bio or detailed research areas list
+        # THEN score += (up to 10 points based on overlap)
+        if student_topic:
+            # Simple keyword extraction (naive approach)
+            topic_words = set(student_topic.lower().split())
+            # Filter out common short words (stop words)
+            topic_words = {w for w in topic_words if len(w) > 3}
+            
+            # Text to match against
+            lec_text = (lec.get("bio", "") + " " + " ".join(lec.get("research_areas", []))).lower()
+            
+            match_count = sum(1 for word in topic_words if word in lec_text)
+            if match_count > 0:
+                bonus = min(10, match_count * 2) # 2 points per keyword, max 10
+                score += bonus
+                reasons.append({
+                    "rule": "R11", 
+                    "text": f"Topic alignment: Found {match_count} keyword matches in lecturer profile", 
+                    "type": "positive"
+                })
+                fired_rules.append("R11")
+                print(f"[{lec['id']}] R11 FIRED (+{bonus}): {match_count} topic keyword matches")
 
         # ── Data freshness check ──────────────────────────────────────────────
         stale_warning = False

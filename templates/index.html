@@ -1,128 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ResearchMatch — FCSIT UM Research Collaboration Matchmaker</title>
-  <meta name="description" content="Find your perfect research supervisor or collaborator at FCSIT, Universiti Malaya using our intelligent expert system matchmaker." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/css/style.css" />
-</head>
-<body class="landing-page">
+{% extends "base.html" %}
 
-  <!-- Animated canvas background -->
-  <canvas id="particle-canvas"></canvas>
+{% block title %}ResearchMatch — FCSIT UM Research Collaboration Matchmaker{% endblock %}
 
-  <!-- Gradient overlay -->
-  <div class="bg-overlay"></div>
+{% block meta_description %}
+<meta name="description" content="Find your perfect research supervisor or collaborator at FCSIT, Universiti Malaya using our intelligent expert system matchmaker." />
+{% endblock %}
 
-  <!-- Main landing content -->
-  <main class="landing-main">
+{% block body_class %}landing-page{% endblock %}
 
-    <!-- Header / Logo area -->
-    <header class="landing-header">
-      <div class="um-logo-placeholder" aria-label="Universiti Malaya Logo">
-        <span class="um-logo-text">UM</span>
-        <span class="um-logo-sub">Universiti Malaya</span>
-      </div>
-      <div class="fcsit-badge">FCSIT</div>
-    </header>
+{% block content %}
+<main class="landing-main">
+  <header class="landing-header">
+    <div class="um-logo-placeholder" aria-label="Universiti Malaya Logo">
+      <span class="um-logo-text">UM</span>
+      <span class="um-logo-sub">Universiti Malaya</span>
+    </div>
+    <div class="fcsit-badge">FCSIT</div>
+  </header>
 
-    <!-- Hero section -->
-    <section class="hero-section">
-      <div class="hero-eyebrow">
-        <span class="eyebrow-line"></span>
-        <span class="eyebrow-text">Expert System Technology</span>
-        <span class="eyebrow-line"></span>
-      </div>
+  <section class="hero-section">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">Expert System Technology</span>
+      <span class="eyebrow-line"></span>
+    </div>
 
-      <h1 class="hero-title">
-        <span class="title-main">Research<span class="title-accent">Match</span></span>
-      </h1>
+    <h1 class="hero-title">
+      <span class="title-main">Research<span class="title-accent">Match</span></span>
+    </h1>
 
-      <p class="hero-subtitle">
-        Find your perfect research collaborator<br />
-        at <em>FCSIT, Universiti Malaya</em>
-      </p>
+    <p class="hero-subtitle">
+      Find your perfect research lecturer<br />
+      at <em>FCSIT, Universiti Malaya</em>
+    </p>
 
-      <div class="hero-divider">
-        <div class="divider-line animated-line"></div>
-      </div>
+    <div class="hero-divider">
+      <div class="divider-line animated-line"></div>
+    </div>
 
-      <!-- Feature row -->
-      <div class="feature-row" role="list">
-        <div class="feature-item" role="listitem">
-          <div class="feature-icon">🎯</div>
-          <div class="feature-text">
-            <strong>Smart Matching</strong>
-            <span>Rule-based inference engine with 10 scoring criteria</span>
-          </div>
-        </div>
-        <div class="feature-divider"></div>
-        <div class="feature-item" role="listitem">
-          <div class="feature-icon">📚</div>
-          <div class="feature-text">
-            <strong>Real Profiles</strong>
-            <span>Curated FCSIT lecturer knowledge base</span>
-          </div>
-        </div>
-        <div class="feature-divider"></div>
-        <div class="feature-item" role="listitem">
-          <div class="feature-icon">⚡</div>
-          <div class="feature-text">
-            <strong>Instant Results</strong>
-            <span>Top 3 matches with full explanation</span>
-          </div>
+    <div class="feature-row" role="list">
+      <div class="feature-item" role="listitem">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-text">
+          <strong>Smart Matching</strong>
+          <span>Rule-based inference engine with 12 scoring criteria</span>
         </div>
       </div>
-
-      <!-- CTA Button -->
-      <a href="/match" class="cta-btn" id="cta-find-supervisor" role="button">
-        <span>Find My Supervisor</span>
-        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
-
-      <!-- Stats row -->
-      <div class="stats-row">
-        <div class="stat-item">
-          <span class="stat-num">10</span>
-          <span class="stat-label">Lecturers</span>
-        </div>
-        <div class="stat-sep">·</div>
-        <div class="stat-item">
-          <span class="stat-num">10</span>
-          <span class="stat-label">Research Areas</span>
-        </div>
-        <div class="stat-sep">·</div>
-        <div class="stat-item">
-          <span class="stat-num">10</span>
-          <span class="stat-label">Scoring Rules</span>
-        </div>
-        <div class="stat-sep">·</div>
-        <div class="stat-item">
-          <span class="stat-num">4</span>
-          <span class="stat-label">Steps</span>
+      <div class="feature-divider"></div>
+      <div class="feature-item" role="listitem">
+        <div class="feature-icon">📚</div>
+        <div class="feature-text">
+          <strong>Real Profiles</strong>
+          <span>Curated FCSIT lecturer knowledge base</span>
         </div>
       </div>
-    </section>
+      <div class="feature-divider"></div>
+      <div class="feature-item" role="listitem">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-text">
+          <strong>Instant Results</strong>
+          <span>Top 3 matches with full explanation</span>
+        </div>
+      </div>
+    </div>
 
-    <!-- Footer -->
-    <footer class="landing-footer">
-      <p>
-        Powered by Expert System Technology &nbsp;|&nbsp;
-        WID2001 Knowledge Representation &amp; Reasoning
-      </p>
-      <p class="footer-sub">
-        Faculty of Computer Science &amp; Information Technology &nbsp;·&nbsp; Universiti Malaya
-      </p>
-    </footer>
+    <a href="/match" class="cta-btn" id="cta-find-supervisor" role="button">
+      <span>Find My Supervisor</span>
+      <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
 
-  </main>
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-num">75</span>
+        <span class="stat-label">Lecturers</span>
+      </div>
+      <div class="stat-sep">·</div>
+      <div class="stat-item">
+        <span class="stat-num">21</span>
+        <span class="stat-label">Research Areas</span>
+      </div>
+      <div class="stat-sep">·</div>
+      <div class="stat-item">
+        <span class="stat-num">12</span>
+        <span class="stat-label">Scoring Rules</span>
+      </div>
+      <div class="stat-sep">·</div>
+      <div class="stat-item">
+        <span class="stat-num">4</span>
+        <span class="stat-label">Steps</span>
+      </div>
+    </div>
+  </section>
 
-  <script src="/static/js/main.js"></script>
-</body>
-</html>
+  <footer class="landing-footer">
+    <p>
+      Powered by Expert System Technology &nbsp;|&nbsp;
+      WID2001 Knowledge Representation &amp; Reasoning
+    </p>
+    <p class="footer-sub">
+      Faculty of Computer Science &amp; Information Technology &nbsp;·&nbsp; Universiti Malaya
+    </p>
+  </footer>
+</main>
+{% endblock %}

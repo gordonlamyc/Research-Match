@@ -1,287 +1,235 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Matches — ResearchMatch FCSIT UM</title>
-  <meta name="description" content="Your top 3 matched research supervisors at FCSIT, Universiti Malaya based on your profile." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/css/style.css" />
-</head>
-<body class="results-page">
+{% extends "base.html" %}
 
-  <canvas id="particle-canvas"></canvas>
-  <div class="bg-overlay"></div>
+{% block title %}Your Matches — ResearchMatch FCSIT UM{% endblock %}
 
-  <!-- Top nav bar -->
-  <nav class="q-navbar">
-    <a href="/" class="q-nav-logo">Research<span class="accent">Match</span></a>
-    <span class="q-nav-tag">FCSIT · Universiti Malaya</span>
-  </nav>
+{% block meta_description %}
+<meta name="description" content="Your top 3 matched research supervisors at FCSIT, Universiti Malaya based on your profile." />
+{% endblock %}
 
-  <main class="results-main">
+{% block body_class %}results-page{% endblock %}
 
-    <!-- Results header -->
-    <div class="results-header">
-      <span class="results-eyebrow">Expert System Output</span>
-      <h1 class="results-title">Your Top Matches</h1>
-      <p class="results-subtitle">
-        Based on your profile, our inference engine has ranked the best research supervisors for you.
+{% block navbar %}
+<nav class="q-navbar">
+  <a href="/" class="q-nav-logo">Research<span class="accent">Match</span></a>
+  <span class="q-nav-tag">FCSIT · Universiti Malaya</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<main class="results-main">
+  <div class="results-header">
+    <span class="results-eyebrow">Expert System Output</span>
+    <h1 class="results-title">Your Top Matches</h1>
+    <p class="results-subtitle">
+      Based on your profile, our inference engine has ranked the best research supervisors for you.
+    </p>
+  </div>
+
+  <div class="profile-strip glass-card">
+    <div class="profile-strip-inner">
+      <div class="profile-chip">
+        <span class="chip-label">Research Area</span>
+        <span class="chip-value">{{ student.research_area }}</span>
+      </div>
+      <div class="profile-chip">
+        <span class="chip-label">Level</span>
+        <span class="chip-value">{{ student.level }}</span>
+      </div>
+      <div class="profile-chip">
+        <span class="chip-label">Research Type</span>
+        <span class="chip-value">{{ student.research_type }}</span>
+      </div>
+      <div class="profile-chip">
+        <span class="chip-label">Expertise Needed</span>
+        <span class="chip-value">{{ student.expertise }}</span>
+      </div>
+      {% if student.needs_industry %}
+      <div class="profile-chip chip-active">
+        <span class="chip-value">🏭 Industry Links Required</span>
+      </div>
+      {% endif %}
+      {% if student.prefers_impact %}
+      <div class="profile-chip chip-active">
+        <span class="chip-value">📈 High Publication Focus</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if no_strong_match %}
+  <div class="warning-box" role="alert">
+    <span class="warning-icon">⚠</span>
+    <div>
+      <strong>No strong match found</strong> — the system is showing the closest available options based on your inputs.
+      Consider broadening your research area or adjusting your preferences for better results.
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="results-grid" id="results-grid">
+    {% for result in results %}
+    {% set rank_idx = loop.index0 %}
+    {% set rank_name = ranks[rank_idx] %}
+    {% set lec = result.lecturer %}
+
+    <article class="result-card rank-{{ rank_name }}" id="card-{{ rank_idx + 1 }}" data-score="{{ result.score }}" data-rank="{{ rank_idx + 1 }}">
+      <div class="card-rank-strip">
+        <div class="rank-medal rank-{{ rank_name }}">
+          {% if rank_name == 'gold' %}🥇{% elif rank_name == 'silver' %}🥈{% else %}🥉{% endif %}
+          <span class="rank-text">#{{ rank_idx + 1 }}</span>
+        </div>
+        <div class="score-circle-wrapper" aria-label="Match score {{ result.score }}%">
+          <svg class="score-svg" viewBox="0 0 80 80" width="80" height="80">
+            <circle class="score-bg-ring" cx="40" cy="40" r="32" />
+            <circle class="score-arc rank-{{ rank_name }}-arc" cx="40" cy="40" r="32" stroke-dasharray="201" stroke-dashoffset="201" data-score="{{ result.score }}" transform="rotate(-90 40 40)" />
+          </svg>
+          <div class="score-inner">
+            <span class="score-num" data-target="{{ result.score }}">0</span>
+            <span class="score-pct">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="lecturer-header">
+          <div class="lecturer-avatar" aria-hidden="true">
+            {{ lec.name.split()[1][0] }}{{ lec.name.split()[-1][0] }}
+          </div>
+          <div class="lecturer-info">
+            <h2 class="lecturer-name">{{ lec.name }}</h2>
+            <p class="lecturer-title">{{ lec.title }} · FCSIT, UM</p>
+          </div>
+        </div>
+
+        {% if lec.bio %}
+        <p class="lecturer-bio">{{ lec.bio }}</p>
+        {% endif %}
+
+        <div class="confidence-badge badge-{{ result.confidence_class }}">
+          <span class="badge-dot"></span>
+          {{ result.confidence }}
+        </div>
+
+        <div class="area-pills" aria-label="Research areas">
+          {% for area in lec.research_areas %}
+          <span class="area-pill {% if area == lec.primary_area %}primary-pill{% endif %}">
+            {{ area_labels.get(area, area) }}
+          </span>
+          {% endfor %}
+        </div>
+
+        <div class="lec-stats">
+          <div class="lec-stat">
+            <span class="stat-icon">📄</span>
+            <span class="stat-val">{{ lec.publications }}</span>
+            <span class="stat-lbl">Publications</span>
+          </div>
+          <div class="lec-stat">
+            <span class="stat-icon">📈</span>
+            <span class="stat-val">{{ lec.h_index }}</span>
+            <span class="stat-lbl">H-Index</span>
+          </div>
+          <div class="lec-stat">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">{{ result.slot_used }}/{{ result.slot_max }}</span>
+            <span class="stat-lbl">Load</span>
+          </div>
+        </div>
+
+        <div class="badges-row">
+          {% if lec.availability == 'available' %}
+          <span class="status-badge badge-green">● Available</span>
+          {% elif lec.availability == 'limited' %}
+          <span class="status-badge badge-amber">● Limited</span>
+          {% else %}
+          <span class="status-badge badge-red">● Unavailable</span>
+          {% endif %}
+
+          {% if lec.industry_connections %}
+          <span class="status-badge badge-blue">🏭 Industry Connected</span>
+          {% endif %}
+
+          {% if lec.h_index >= 15 or lec.publications >= 50 %}
+          <span class="status-badge badge-purple">💎 Prolific Researcher</span>
+          {% endif %}
+        </div>
+
+        {% if result.stale_warning %}
+        <div class="stale-warning" role="alert">
+          ⚠ Availability data may be outdated (last updated: {{ lec.last_updated }})
+        </div>
+        {% endif %}
+
+        <div class="accordion" id="accordion-{{ lec.id }}">
+          <button type="button" class="accordion-btn" aria-expanded="false" aria-controls="accordion-body-{{ lec.id }}" onclick="toggleAccordion('{{ lec.id }}')">
+            <span>Why this match?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="accordion-body" id="accordion-body-{{ lec.id }}" hidden>
+            <ul class="reason-list" aria-label="Match reasons">
+              {% for reason in result.reasons %}
+              <li class="reason-item reason-{{ reason.type }}">
+                <span class="reason-icon">{% if reason.type == 'positive' %}✓{% else %}✗{% endif %}</span>
+                <div>
+                  <span class="reason-rule">{{ reason.rule }}</span>
+                  <span class="reason-text">{{ reason.text }}</span>
+                </div>
+              </li>
+              {% endfor %}
+              {% if not result.reasons %}
+              <li class="reason-item reason-neutral">
+                <span class="reason-icon">ℹ</span>
+                <span class="reason-text">No specific rules matched strongly for this lecturer.</span>
+              </li>
+              {% endif %}
+            </ul>
+            <div class="rules-debug">
+              Rules fired: {{ result.fired_rules | join(', ') or 'None' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a href="mailto:{{ lec.email }}?subject=Research Collaboration Enquiry — ResearchMatch" class="btn-email" id="email-{{ lec.id }}">✉ Email Lecturer</a>
+          <a href="{{ lec.profile_url }}" target="_blank" rel="noopener noreferrer" class="btn-profile" id="profile-{{ lec.id }}">View Profile ↗</a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  {% if results and results[0].score < 60 %}
+  <div class="uncertainty-box glass-card" role="note">
+    <div class="uncertainty-icon">🔍</div>
+    <div>
+      <strong>Uncertainty Notice</strong>
+      <p>
+        The top match scored below 60%. This may indicate that your specific research profile
+        does not closely align with the current lecturer roster, or that some of your requirements
+        are not commonly offered. Consider reaching out to multiple lecturers or visiting the
+        <a href="https://fcsit.um.edu.my" target="_blank" rel="noopener" class="accent-link">FCSIT faculty page</a>
+        for a broader search.
       </p>
     </div>
+  </div>
+  {% endif %}
 
-    <!-- Student profile summary strip -->
-    <div class="profile-strip glass-card">
-      <div class="profile-strip-inner">
-        <div class="profile-chip">
-          <span class="chip-label">Research Area</span>
-          <span class="chip-value">{{ student.research_area }}</span>
-        </div>
-        <div class="profile-chip">
-          <span class="chip-label">Level</span>
-          <span class="chip-value">{{ student.level }}</span>
-        </div>
-        <div class="profile-chip">
-          <span class="chip-label">Research Type</span>
-          <span class="chip-value">{{ student.research_type }}</span>
-        </div>
-        <div class="profile-chip">
-          <span class="chip-label">Expertise Needed</span>
-          <span class="chip-value">{{ student.expertise }}</span>
-        </div>
-        {% if student.needs_industry %}
-        <div class="profile-chip chip-active">
-          <span class="chip-value">🏭 Industry Links Required</span>
-        </div>
-        {% endif %}
-        {% if student.needs_funding %}
-        <div class="profile-chip chip-active">
-          <span class="chip-value">💰 Funding Required</span>
-        </div>
-        {% endif %}
-      </div>
-    </div>
+  <div class="bottom-actions">
+    <a href="/match" class="btn-secondary" id="btn-search-again">← Search Again</a>
+    <button type="button" class="btn-primary" id="btn-print" onclick="window.print()">🖨 Download / Print Results</button>
+  </div>
+</main>
 
-    <!-- No strong match warning -->
-    {% if no_strong_match %}
-    <div class="warning-box" role="alert">
-      <span class="warning-icon">⚠</span>
-      <div>
-        <strong>No strong match found</strong> — the system is showing the closest available options based on your inputs.
-        Consider broadening your research area or adjusting your preferences for better results.
-      </div>
-    </div>
-    {% endif %}
+<footer class="results-footer no-print">
+  <p>ResearchMatch &nbsp;|&nbsp; FCSIT, Universiti Malaya &nbsp;|&nbsp; WID2001 Knowledge Representation &amp; Reasoning</p>
+</footer>
+{% endblock %}
 
-    <!-- ─── Result Cards ──────────────────────────────────────────────── -->
-    <div class="results-grid" id="results-grid">
-
-      {% for result in results %}
-      {% set rank_idx = loop.index0 %}
-      {% set rank_name = ranks[rank_idx] %}
-      {% set lec = result.lecturer %}
-
-      <article class="result-card rank-{{ rank_name }}" id="card-{{ rank_idx + 1 }}"
-               data-score="{{ result.score }}" data-rank="{{ rank_idx + 1 }}">
-
-        <!-- Rank medal + score -->
-        <div class="card-rank-strip">
-          <div class="rank-medal rank-{{ rank_name }}">
-            {% if rank_name == 'gold' %}🥇{% elif rank_name == 'silver' %}🥈{% else %}🥉{% endif %}
-            <span class="rank-text">#{{ rank_idx + 1 }}</span>
-          </div>
-          <!-- Circular score arc -->
-          <div class="score-circle-wrapper" aria-label="Match score {{ result.score }}%">
-            <svg class="score-svg" viewBox="0 0 80 80" width="80" height="80">
-              <circle class="score-bg-ring" cx="40" cy="40" r="32" />
-              <circle class="score-arc rank-{{ rank_name }}-arc"
-                      cx="40" cy="40" r="32"
-                      stroke-dasharray="201"
-                      stroke-dashoffset="201"
-                      data-score="{{ result.score }}"
-                      transform="rotate(-90 40 40)" />
-            </svg>
-            <div class="score-inner">
-              <span class="score-num" data-target="{{ result.score }}">0</span>
-              <span class="score-pct">%</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lecturer info -->
-        <div class="card-body">
-          <div class="lecturer-header">
-            <div class="lecturer-avatar" aria-hidden="true">
-              {{ lec.name.split()[1][0] }}{{ lec.name.split()[-1][0] }}
-            </div>
-            <div class="lecturer-info">
-              <h2 class="lecturer-name">{{ lec.name }}</h2>
-              <p class="lecturer-title">{{ lec.title }} · FCSIT, UM</p>
-            </div>
-          </div>
-
-          <!-- Lecturer bio -->
-          {% if lec.bio %}
-          <p class="lecturer-bio">{{ lec.bio }}</p>
-          {% endif %}
-
-          <!-- Confidence badge -->
-          <div class="confidence-badge badge-{{ result.confidence_class }}">
-            <span class="badge-dot"></span>
-            {{ result.confidence }}
-          </div>
-
-          <!-- Research area pills -->
-          <div class="area-pills" aria-label="Research areas">
-            {% for area in lec.research_areas %}
-            <span class="area-pill {% if area == lec.primary_area %}primary-pill{% endif %}">
-              {{ area_labels.get(area, area) }}
-            </span>
-            {% endfor %}
-          </div>
-
-          <!-- Stats row -->
-          <div class="lec-stats">
-            <div class="lec-stat">
-              <span class="stat-icon">📄</span>
-              <span class="stat-val">{{ lec.publications }}</span>
-              <span class="stat-lbl">Publications</span>
-            </div>
-            <div class="lec-stat">
-              <span class="stat-icon">📈</span>
-              <span class="stat-val">{{ lec.h_index }}</span>
-              <span class="stat-lbl">H-Index</span>
-            </div>
-            <div class="lec-stat">
-              <span class="stat-icon">👥</span>
-              <span class="stat-val">{{ result.slot_used }}/{{ result.slot_max }}</span>
-              <span class="stat-lbl">Load</span>
-            </div>
-          </div>
-
-          <!-- Badges row -->
-          <div class="badges-row">
-            <!-- Availability -->
-            {% if lec.availability == 'available' %}
-            <span class="status-badge badge-green">● Available</span>
-            {% elif lec.availability == 'limited' %}
-            <span class="status-badge badge-amber">● Limited</span>
-            {% else %}
-            <span class="status-badge badge-red">● Unavailable</span>
-            {% endif %}
-
-            {% if lec.industry_connections %}
-            <span class="status-badge badge-blue">🏭 Industry Connected</span>
-            {% endif %}
-
-            {% if lec.active_grants %}
-            <span class="status-badge badge-purple">💰 Active Grants</span>
-            {% endif %}
-          </div>
-
-          <!-- Stale data warning -->
-          {% if result.stale_warning %}
-          <div class="stale-warning" role="alert">
-            ⚠ Availability data may be outdated (last updated: {{ lec.last_updated }})
-          </div>
-          {% endif %}
-
-          <!-- Why this match? accordion -->
-          <div class="accordion" id="accordion-{{ lec.id }}">
-            <button type="button" class="accordion-btn" aria-expanded="false"
-                    aria-controls="accordion-body-{{ lec.id }}"
-                    onclick="toggleAccordion('{{ lec.id }}')">
-              <span>Why this match?</span>
-              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 9l6 6 6-6"/>
-              </svg>
-            </button>
-            <div class="accordion-body" id="accordion-body-{{ lec.id }}" hidden>
-              <ul class="reason-list" aria-label="Match reasons">
-                {% for reason in result.reasons %}
-                <li class="reason-item reason-{{ reason.type }}">
-                  <span class="reason-icon">{% if reason.type == 'positive' %}✓{% else %}✗{% endif %}</span>
-                  <div>
-                    <span class="reason-rule">{{ reason.rule }}</span>
-                    <span class="reason-text">{{ reason.text }}</span>
-                  </div>
-                </li>
-                {% endfor %}
-                {% if not result.reasons %}
-                <li class="reason-item reason-neutral">
-                  <span class="reason-icon">ℹ</span>
-                  <span class="reason-text">No specific rules matched strongly for this lecturer.</span>
-                </li>
-                {% endif %}
-              </ul>
-              <div class="rules-debug">
-                Rules fired: {{ result.fired_rules | join(', ') or 'None' }}
-              </div>
-            </div>
-          </div>
-
-          <!-- Action buttons -->
-          <div class="card-actions">
-            <a href="mailto:{{ lec.email }}?subject=Research Collaboration Enquiry — ResearchMatch"
-               class="btn-email" id="email-{{ lec.id }}">
-              ✉ Email Lecturer
-            </a>
-            <a href="{{ lec.profile_url }}" target="_blank" rel="noopener noreferrer"
-               class="btn-profile" id="profile-{{ lec.id }}">
-              View Profile ↗
-            </a>
-          </div>
-
-        </div><!-- end .card-body -->
-      </article>
-
-      {% endfor %}
-
-    </div><!-- end .results-grid -->
-
-    <!-- Low confidence warning -->
-    {% if results and results[0].score < 60 %}
-    <div class="uncertainty-box glass-card" role="note">
-      <div class="uncertainty-icon">🔍</div>
-      <div>
-        <strong>Uncertainty Notice</strong>
-        <p>
-          The top match scored below 60%. This may indicate that your specific research profile
-          does not closely align with the current lecturer roster, or that some of your requirements
-          are not commonly offered. Consider reaching out to multiple lecturers or visiting the
-          <a href="https://fcsit.um.edu.my" target="_blank" rel="noopener" class="accent-link">FCSIT faculty page</a>
-          for a broader search.
-        </p>
-      </div>
-    </div>
-    {% endif %}
-
-    <!-- Bottom actions -->
-    <div class="bottom-actions">
-      <a href="/match" class="btn-secondary" id="btn-search-again">
-        ← Search Again
-      </a>
-      <button type="button" class="btn-primary" id="btn-print" onclick="window.print()">
-        🖨 Download / Print Results
-      </button>
-    </div>
-
-  </main>
-
-  <!-- Print stylesheet notice (screen only) -->
-  <footer class="results-footer no-print">
-    <p>
-      ResearchMatch &nbsp;|&nbsp; FCSIT, Universiti Malaya &nbsp;|&nbsp;
-      WID2001 Knowledge Representation &amp; Reasoning
-    </p>
-  </footer>
-
-  <script src="/static/js/main.js"></script>
-  <script>
-    // Pass results data for JS animations
-    const RESULTS_DATA = {{ results | tojson }};
-  </script>
-</body>
-</html>
+{% block scripts %}
+<script>
+  // Pass results data for JS animations
+  const RESULTS_DATA = {{ results | tojson }};
+</script>
+{% endblock %}

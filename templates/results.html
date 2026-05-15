@@ -48,9 +48,9 @@
         <span class="chip-value">🏭 Industry Links Required</span>
       </div>
       {% endif %}
-      {% if student.needs_funding %}
+      {% if student.prefers_impact %}
       <div class="profile-chip chip-active">
-        <span class="chip-value">💰 Funding Required</span>
+        <span class="chip-value">📈 High Publication Focus</span>
       </div>
       {% endif %}
     </div>
@@ -149,8 +149,8 @@
           <span class="status-badge badge-blue">🏭 Industry Connected</span>
           {% endif %}
 
-          {% if lec.active_grants %}
-          <span class="status-badge badge-purple">💰 Active Grants</span>
+          {% if lec.h_index >= 15 or lec.publications >= 50 %}
+          <span class="status-badge badge-purple">💎 Prolific Researcher</span>
           {% endif %}
         </div>
 

@@ -193,7 +193,7 @@ document.querySelectorAll('.toggle-btn').forEach(btn => {
     const isOn    = btn.getAttribute('aria-checked') === 'true';
     const newVal  = !isOn;
     const field   = btn.dataset.field;
-    const labelEl = document.getElementById('label-' + field.replace('needs_', '').replace('prefers_light_load', 'light'));
+    const labelEl = document.getElementById('label-' + field.replace(/^(needs_|prefers_)/, '').replace('_load', ''));
 
     btn.setAttribute('aria-checked', String(newVal));
     const hidden = document.getElementById('field-' + field);
@@ -290,7 +290,7 @@ function populateSummary() {
   set('sum-level',    levelEl ? (LEVEL_LABELS[levelEl.value] || levelEl.value) : '�');
   set('sum-rtype',    rtypeEl ? (RTYPE_LABELS[rtypeEl.value] || rtypeEl.value) : '�');
   set('sum-industry', getToggleVal('needs_industry'));
-  set('sum-funding',  getToggleVal('needs_funding'));
+  set('sum-impact',   getToggleVal('prefers_high_impact'));
   set('sum-light',    getToggleVal('prefers_light_load'));
 
   const slider = document.getElementById('expertise-slider');

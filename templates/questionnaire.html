@@ -186,6 +186,14 @@
                 <span>Real-world industry problem</span>
               </div>
             </label>
+            <label class="radio-card" for="rtype-mixed">
+              <input type="radio" name="research_type" id="rtype-mixed" value="mixed" />
+              <div class="radio-card-inner">
+                <span class="radio-icon">🤝</span>
+                <strong>Academic &amp; Industry</strong>
+                <span>Mixed-mode collaborative research</span>
+              </div>
+            </label>
           </div>
         </div>
 
@@ -230,16 +238,16 @@
 
         <div class="form-group toggle-group">
           <div class="toggle-info">
-            <label class="form-label no-mb" for="toggle-funding">Do you need access to research funding / grants?</label>
-            <p class="toggle-hint">Lecturers with active grants may offer research assistant positions or stipends.</p>
+            <label class="form-label no-mb" for="toggle-publication">Are you aiming for high-impact research publications?</label>
+            <p class="toggle-hint">Matches you with prolific lecturers who have high H-index and publication counts (Q1/Q2 focus).</p>
           </div>
           <div class="toggle-wrapper">
-            <button type="button" class="toggle-btn" id="toggle-funding" role="switch" aria-checked="false" data-field="needs_funding">
+            <button type="button" class="toggle-btn" id="toggle-publication" role="switch" aria-checked="false" data-field="prefers_high_impact">
               <span class="toggle-thumb"></span>
             </button>
-            <span class="toggle-label-text" id="label-funding">No</span>
+            <span class="toggle-label-text" id="label-high_impact">No</span>
           </div>
-          <input type="hidden" name="needs_funding" id="field-needs_funding" value="false" />
+          <input type="hidden" name="prefers_high_impact" id="field-prefers_high_impact" value="false" />
         </div>
 
         <div class="form-group">
@@ -321,8 +329,8 @@
               <span class="summary-value" id="sum-industry">—</span>
             </div>
             <div class="summary-item">
-              <span class="summary-label">Funding / Grants</span>
-              <span class="summary-value" id="sum-funding">—</span>
+              <span class="summary-label">Publication Focus</span>
+              <span class="summary-value" id="sum-impact">—</span>
             </div>
             <div class="summary-item">
               <span class="summary-label">Expertise Level</span>
